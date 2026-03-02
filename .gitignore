@@ -1,0 +1,9 @@
+# Docker / Infrastructure Data
+docker/postgres-data/
+docker/
+.env
+
+# IDEs
+.idea/
+.vscode/
+*.swp
