@@ -1,0 +1,26 @@
+services:
+  tuuam-backend:
+    build:
+      context: ./tuuam-backend
+      dockerfile: Dockerfile
+    container_name: tuuam-backend
+    environment:
+      # Override default datasource URL to use the docker network alias
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/tuuam_db
+      - SPRING_DATASOURCE_USERNAME=tuuam_user
+      - SPRING_DATASOURCE_PASSWORD=secret_tuuam_password
+      # Disable Spring Boot's internal docker-compose management within the container
+      - SPRING_DOCKER_COMPOSE_ENABLED=false
+      # Inject Google Vertex AI environment variables
+      - VERTEX_AI_PROJECT_ID=${VERTEX_AI_PROJECT_ID}
+      - VERTEX_AI_LOCATION=${VERTEX_AI_LOCATION}
+    ports:
+      - "8080:8080"
+    networks:
+      - tuuam-net
+
+networks:
+  tuuam-net:
+    # Bind to the shared infrastructure network created by the root docker-compose.yml
+    external: true
+    name: tuuam-net

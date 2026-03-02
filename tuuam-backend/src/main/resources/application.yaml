@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: tuuam-backend
+
+  # Spring AI Vertex Konfiguration
+  ai:
+    vertex:
+      ai:
+        gemini:
+          project-id: ${VERTEX_AI_PROJECT_ID}
+          location: ${VERTEX_AI_LOCATION:europe-west3} # Standardmäßig Frankfurt (europe-west3)
+          chat:
+            options:
+              model: gemini-1.5-pro # Oder gemini-1.5-flash, je nach Bedarf
+
+  # Local development database configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tuuam_db
+    username: tuuam_user
+    password: secret_tuuam_password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      # Auto-generate schema based on JPA entities (Switch to 'validate' in production)
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # Spring Boot Docker Compose integration for local development lifecycle
+  docker:
+    compose:
+      file: ../docker-compose.yml
+      lifecycle-management: start-and-stop
